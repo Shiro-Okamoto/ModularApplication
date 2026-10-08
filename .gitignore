@@ -1,0 +1,15 @@
+
+configs/*.toml
+!configs/default_config.toml
+!configs/logger_config.toml
+
+plugins
+logs
+storage
+
+
+env
+pyenv
+
+
+__pycache__
