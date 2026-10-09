@@ -1,4 +1,6 @@
-
+'''
+Здесь описаны кастомные исключения, типы и различные инструменты Приложения.
+'''
 from __future__ import annotations
 
 
@@ -20,6 +22,13 @@ def set_console_title(title: str) -> None:
     return
 
 
+from . import exceptions
+from .types import *
+
+
 __all__ = [
     'set_console_title',
+    'exceptions',
+    'Plugin',
+    'Handler',
 ]

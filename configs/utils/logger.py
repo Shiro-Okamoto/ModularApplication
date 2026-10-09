@@ -1,4 +1,6 @@
-'В данном модуле написаны форматтеры для логгера.'
+'''
+В данном модуле написаны форматтеры для логгера.
+'''
 from logging import Formatter, LogRecord, PercentStyle
 from colorama import Fore, Back
 import re

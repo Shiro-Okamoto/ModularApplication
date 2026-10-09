@@ -1,4 +1,6 @@
-'Здесь описан основной класс конфига.'
+'''
+В данном модуле описан основной класс конфига.
+'''
 from . import CONFIGS_DIR
 
 from dynaconf import Dynaconf
@@ -14,6 +16,12 @@ from typing import Any
 
 
 class Config:
+    '''
+    Класс конфига.
+
+    :param section: Секция конфига, отображаемая в Config.config, по умолчанию — None.
+    :type section: str | None, опционально
+    '''
     __locks: dict[str, Lock] = {
         'init_lock': Lock(),
         'default_lock': Lock()
@@ -25,12 +33,6 @@ class Config:
 
 
     def __init__(self, section: str | None = None):
-        '''
-        Класс конфига.
-
-        :param section: Секция конфига, отображаемая в Config.config, defaults to None.
-        :type section: str | None, опционально
-        '''
         with Config.__locks['init_lock']:
             self.__section = section
             'Секция конфига, отображаемая в Config.config.'
@@ -53,7 +55,7 @@ class Config:
         '''
         Проходит по всем конфигам в папке конфигов, считывает секции и добавляет в загружаемые конфиги.
 
-        :param force_init: Инициализировать ли уже загруженные секции повторно, defaults to False.
+        :param force_init: Инициализировать ли уже загруженные секции повторно, по умолчанию — False.
         :type force_init: bool, опционально
         '''
         def get_configs_from_file(file_path: Path, config_list: list[Path]) -> list[Path]:
@@ -101,17 +103,19 @@ class Config:
         Указывайте все имена секций в конфиге.
         При отсутствии параметра section_names будет установлено единственное имя секции, соответствующее имени конфига (большими буквами).
 
-        Файл конфига без секций или с несоответствующими указанным в section_names секциям при обновлении конфига ПОЛНОСТЬЮ ОЧИСТИТСЯ!
-
-        ВАЖНО!!! Не обновляет сам конфиг. Для обновления используйте config.update_config() или инициализируйте класс повторно.
+        Файл конфига без секций или с несоответствующими указанным в section_names секциям при обновлении конфига **ПОЛНОСТЬЮ ОЧИСТИТСЯ**!
 
         :param config_path: Путь к конфигу.
-        :type config_path: Path
-        :param section_names: Имена секций в конфиге, defaults to None.
+        :type config_path: :class:`Path`
+        :param section_names: Имена секций в конфиге, по умолчанию — None.
         :type section_names: list[str] | None, опционально
-        :param force_add: Перезаписывать ли уже существующие секции конфига, defaults to False.
+        :param force_add: Перезаписывать ли уже существующие секции конфига, по умолчанию — False.
         :type force_add: bool, опционально
         :raises ValueError: Если имя секции уже есть в списке конфигов.
+
+        ---------------------------------------------------------------------------------------------------------------------------
+
+        **ВАЖНО!!!** Не обновляет сам конфиг. Для обновления используйте config.update_config() или инициализируйте класс повторно.
         '''
         if not section_names: section_names = [config_path.stem.upper()]
 
@@ -125,6 +129,12 @@ class Config:
 
 
     def __get_config(self) -> Dynaconf:
+        '''
+        Возвращает объект конфига :class:`Dynaconf`.
+
+        :return: Объект конфига.
+        :rtype: :class:`Dynaconf`
+        '''
         settings_files = self.__settings_files_list
 
         return Dynaconf(
@@ -136,9 +146,11 @@ class Config:
 
     def update_config(self) -> None:
         '''
-        Повторно инициализирует Config.config.
+        Повторно инициализирует :attr:`config`.
 
-        ВАЖНО!!! Не сохраняет изменения. Для сохранения изменений используйте Config.save()
+        ---------------------------------------------------------------------------------------
+
+        **ВАЖНО!!!** Не сохраняет изменения. Для сохранения изменений используйте :meth:`save`.
         '''
         self.config = self.__get_config()
 
@@ -150,7 +162,7 @@ class Config:
         '''
         Сохраняет изменения в файле (файлах) конфига.
 
-        :param force_save: Игнорировать Lock, defaults to False.
+        :param force_save: Игнорировать :class:`Lock`, по умолчанию — False.
         :type force_save: bool, опционально
         '''
         def save_without_section():
@@ -226,10 +238,10 @@ class Config:
         Копирует секцию конфига в указанный путь.
 
         :param save_to: Путь к файлу для сохранения.
-        :type save_to: Path
-        :param section_name: Новое имя секции, defaults to None.
+        :type save_to: :class:`Path`
+        :param section_name: Новое имя секции, по умолчанию — None.
         :type section_name: str | None, опционально
-        :raises ValueError: Если класс :obj:`Config` инициализирован без указания секции.
+        :raises ValueError: Если класс :class:`Config` инициализирован без указания секции.
         '''
         if not self.__section: raise TypeError(f'Невозможно сохранить все конфиги разом!') # TODO Копирование нескольких конфигов разом
 
@@ -268,14 +280,14 @@ class Config:
     @property
     def __settings_files_list(self) -> list[Path]:
         '''
-        Список уникальных путей в Config.__settings_files.
+        Список уникальных путей в :attr:`__settings_files`.
         '''
         return list(set(list(Config.__settings_files.values())))
 
 
     def __get_lock(self):
         '''
-        Возвращает Lock для указанной секции конфига.
+        Возвращает :class:`Lock` для указанной секции конфига.
         '''
         if not self.__section: return Config.__locks['default_lock']
 
