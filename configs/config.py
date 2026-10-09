@@ -56,7 +56,31 @@ class Config:
         :param force_init: Инициализировать ли уже загруженные секции повторно, defaults to False.
         :type force_init: bool, опционально
         '''
-        for config_path in CONFIGS_DIR.glob('*.toml'):
+        def get_configs_from_file(file_path: Path, config_list: list[Path]) -> list[Path]:
+            if file_path.suffix in ['.toml']: config_list.append(file_path) # TODO Поддержка других форматов конфигов
+
+
+            return config_list
+
+        def get_configs_from_dir(directory: Path, config_list: list[Path]) -> list[Path]:
+            for path in sorted(directory.iterdir(), key=lambda p: str(p).lower()):
+                if '__pycache__' in str(directory): continue
+
+
+                if path.is_file() and path.suffix in ['.toml']: config_list = get_configs_from_file(path, config_list) # TODO Поддержка других форматов конфигов
+
+                elif path.is_dir(): config_list = get_configs_from_dir(path, config_list)
+
+
+            return config_list
+
+
+        configs = []
+
+        configs = get_configs_from_dir(CONFIGS_DIR, configs)
+
+
+        for config_path in configs:
             if (not force_init) and config_path in cls.__settings_files.values(): continue
 
 

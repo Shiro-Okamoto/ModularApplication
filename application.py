@@ -6,7 +6,7 @@ from subprocess import Popen
 import importlib.util
 
 
-from configs import Config, HOME_DIR, CONFIGS_DIR
+from configs import Config, APPLICATION_CONFIG_DIR
 
 
 from typing import TYPE_CHECKING
@@ -64,7 +64,7 @@ class ModularApplication:
         '''
         Инициализирует Приложение.
         '''
-        if not (CONFIGS_DIR / f'{self.name}.toml').exists(): self.create_config()
+        if not (APPLICATION_CONFIG_DIR / f'{self.name}.toml').exists(): self.create_config()
 
 
         self.initialized = True
@@ -107,14 +107,14 @@ class ModularApplication:
         '''
         Создает конфиг с именем экземпляра.
         '''
-        Config('DEFAULT_CONFIG').copy_section(CONFIGS_DIR / f'{self.name}.toml', self.name) # TODO переделать под метод Config.save
+        Config('DEFAULT_CONFIG').copy_section(APPLICATION_CONFIG_DIR / f'{self.name}.toml', self.name) # TODO переделать под метод Config.save
         Config().init_config()
 
 
     # ---------------------------------------------------------------------------- #
     #                                    Прочее                                    #
     # ---------------------------------------------------------------------------- #
-    def log(self):
+    def log(self) -> Logger:
         if not hasattr(self, '_log'): self._log = getLogger(self.name)
 
         return self._log

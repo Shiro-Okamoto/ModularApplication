@@ -6,7 +6,7 @@ import os
 from application import ModularApplication
 
 
-from configs import VERSION_PATH, PLUGINS_DIR, LOGS_DIR, STORAGE_DIR, CACHE_DIR, UPDATE_DIR, Config
+from configs import VERSION_PATH, PLUGINS_DIR, LOGS_DIR, STORAGE_DIR, CACHE_DIR, UPDATE_DIR, APPLICATION_CONFIG_DIR, Config
 
 from utils import set_console_title
 
@@ -27,7 +27,7 @@ if getattr(sys, 'frozen', False): os.chdir(os.path.dirname(sys.executable))
 else: os.chdir(os.path.dirname(__file__))
 
 
-folders = [PLUGINS_DIR, LOGS_DIR, STORAGE_DIR, CACHE_DIR, UPDATE_DIR]
+folders = [PLUGINS_DIR, LOGS_DIR, STORAGE_DIR, CACHE_DIR, UPDATE_DIR, APPLICATION_CONFIG_DIR]
 
 for folder in folders:
     if not folder.exists(): folder.mkdir(parents=True, exist_ok=True)

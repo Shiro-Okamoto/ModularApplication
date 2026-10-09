@@ -18,6 +18,9 @@ LOGGER_CONFIG_PATH = CONFIGS_DIR / 'logger_config.toml'
 DEFAULT_CONFIG_PATH = CONFIGS_DIR / 'default_config.toml'
 'Путь к папке со стандартными настройками приложения.'
 
+APPLICATION_CONFIG_DIR = CONFIGS_DIR / 'application'
+'Путь к папке с конфигами приложения.'
+
 
 VERSION_PATH = HOME_DIR / 'VERSION.md'
 'Путь к версии приложения.'
@@ -53,6 +56,7 @@ __all__ = [
     'CONFIGS_DIR',
     'LOGGER_CONFIG_PATH',
     'DEFAULT_CONFIG_PATH',
+    'APPLICATION_CONFIG_DIR'
 
     'VERSION_PATH',
 

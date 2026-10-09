@@ -1,5 +1,8 @@
 
-configs/*.toml
+configs/*
+!configs/__init__.py
+!configs/config.py
+!configs/utils/logger.py
 !configs/default_config.toml
 !configs/logger_config.toml
 
